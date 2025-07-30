@@ -71,10 +71,7 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        // Ensure Recharts is globally available after its CDN loads
         const { useState, useEffect, useCallback, useRef } = React;
-        // Access Recharts components from the global Recharts object
-        const { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } = window.Recharts;
 
         // Helper to generate a slightly more complex simulated SVG QR code
         const generateQRCodeSVG = (text, size = 128) => {
@@ -488,6 +485,9 @@
 
         // Analytics Dashboard Component
         const AnalyticsDashboard = ({ links }) => {
+          // Destructure Recharts components here, where they are used
+          const { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } = window.Recharts;
+
           // Dummy data for the chart
           const analyticsData = [
             { name: 'Jan', clicks: 4000 },
@@ -573,7 +573,7 @@
               shortLink={currentShortenedLink?.short}
               longUrl={currentShortenedLink?.long}
               qrCodeData={qrCodeData}
-              onCopy={onCopy}
+              onCopy={copyToClipboard}
               onShortenAnother={onShortenAnother}
               isQrLoading={isQrLoading}
             />
