@@ -3,64 +3,337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LinkSnap - Advanced URL Shortener</title>
-    <!-- Tailwind CSS CDN -->
+    <meta name="description" content="LinkSnap - Advanced URL Shortening Application with Analytics & QR Codes">
+    <meta name="keywords" content="URL shortener, link shortening, QR codes, analytics, GitHub explorer">
+    <meta name="author" content="LinkSnap">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233B82F6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 7h8m0 0v8m0-8l-8 8-4-4-6 6'/%3E%3C/svg%3E">
+    
+    <!-- Primary Meta Tags -->
+    <title>LinkSnap - Advanced URL Shortening Application</title>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://linksnap.app/">
+    <meta property="og:title" content="LinkSnap - Advanced URL Shortening Application">
+    <meta property="og:description" content="Shorten URLs, generate QR codes, track analytics, and explore GitHub profiles with our advanced link management platform.">
+    <meta property="og:image" content="https://linksnap.app/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://linksnap.app/">
+    <meta property="twitter:title" content="LinkSnap - Advanced URL Shortening Application">
+    <meta property="twitter:description" content="Shorten URLs, generate QR codes, track analytics, and explore GitHub profiles with our advanced link management platform.">
+    <meta property="twitter:image" content="https://linksnap.app/og-image.png">
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts - Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS for animations -->
     <style>
-        /* Custom animations for a smoother UI/UX */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
         }
-        .animate-fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
+        
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.4; }
         }
-
-        @keyframes scaleIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
         }
-        .animate-scale-in {
-            animation: scaleIn 0.4s ease-out forwards;
+        
+        .animate-pulse-slow {
+            animation: pulse-slow 4s ease-in-out infinite;
         }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        
+        .animation-delay-2000 {
+            animation-delay: 2s;
         }
-        .animate-fade-in-up {
-            animation: fadeInUp 0.5s ease-out forwards;
+        
+        .animation-delay-4000 {
+            animation-delay: 4s;
         }
-
-        @keyframes zoomIn {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        
+        /* Loading spinner */
+        .spinner {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 2px solid white;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
         }
-        .animate-zoom-in {
-            animation: zoomIn 0.3s ease-out forwards;
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-
-        /* For the "Copied!" message */
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
+        
+        /* Glassmorphism effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        .animate-fade-in-out {
-            animation: fadeIn 0.3s ease-out forwards, fadeOut 0.3s ease-out 1.7s forwards;
+        
+        .glass-dark {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        /* Ensure font-family is applied globally */
-        body {
-            font-family: 'Inter', sans-serif;
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Smooth transitions */
+        * {
+            transition: all 0.3s ease;
+        }
+        
+        /* Form focus states */
+        input:focus, textarea:focus {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Button hover effects */
+        button:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Card hover effects */
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Responsive text */
+        @media (max-width: 640px) {
+            .responsive-text {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Loading states */
+        .loading-shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .loading-shimmer::after {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            transform: translateX(-100%);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 2s infinite;
+            content: '';
+        }
+        
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
         }
     </style>
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse-slow 4s ease-in-out infinite',
+                        'spin-slow': 'spin 3s linear infinite',
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    },
+                    colors: {
+                        'glass': 'rgba(255, 255, 255, 0.1)',
+                        'glass-border': 'rgba(255, 255, 255, 0.2)',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+<body class="bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 min-h-screen">
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 flex items-center justify-center z-50">
+        <div class="text-center">
+            <div class="mb-4">
+                <div class="spinner mx-auto"></div>
+            </div>
+            <h2 class="text-white text-xl font-semibold">Loading LinkSnap...</h2>
+            <p class="text-gray-300 text-sm mt-2">Advanced URL Shortening Platform</p>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
     <div id="root"></div>
-    <!-- The React app will be mounted here -->
-    <script type="module" src="./index.js"></script>
+
+    <!-- Error Boundary Fallback -->
+    <div id="error-fallback" class="hidden fixed inset-0 bg-gradient-to-br from-red-900 via-purple-900 to-pink-900 flex items-center justify-center z-50">
+        <div class="text-center glass rounded-2xl p-8 max-w-md mx-4">
+            <div class="text-red-400 text-6xl mb-4">⚠️</div>
+            <h2 class="text-white text-2xl font-bold mb-4">Oops! Something went wrong</h2>
+            <p class="text-gray-300 mb-6">We're sorry, but there was an error loading LinkSnap. Please refresh the page to try again.</p>
+            <button onclick="window.location.reload()" class="bg-gradient-to-r from-red-500 to-pink-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-red-600 hover:to-pink-700 transition-all duration-300">
+                Reload Page
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Hide preloader when page loads
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }
+        });
+
+        // Global error handler
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.error);
+            const errorFallback = document.getElementById('error-fallback');
+            const preloader = document.getElementById('preloader');
+            if (errorFallback) {
+                errorFallback.classList.remove('hidden');
+            }
+            if (preloader) {
+                preloader.style.display = 'none';
+            }
+        });
+
+        // Service Worker Registration (for PWA capabilities)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                // Only register service worker in production
+                if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+                    navigator.serviceWorker.register('/sw.js')
+                        .then(function(registration) {
+                            console.log('SW registered: ', registration);
+                        })
+                        .catch(function(registrationError) {
+                            console.log('SW registration failed: ', registrationError);
+                        });
+                }
+            });
+        }
+
+        // Performance monitoring
+        window.addEventListener('load', function() {
+            if ('performance' in window) {
+                const loadTime = performance.now();
+                console.log('Page load time:', Math.round(loadTime), 'ms');
+                
+                // Log Core Web Vitals if available
+                if ('web-vital' in window) {
+                    // This would be used with a web vitals library
+                    console.log('Core Web Vitals monitoring enabled');
+                }
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Alt + S to focus on URL input
+            if (e.altKey && e.key === 's') {
+                e.preventDefault();
+                const urlInput = document.querySelector('input[type="url"]');
+                if (urlInput) {
+                    urlInput.focus();
+                }
+            }
+            
+            // Alt + A to switch to Analytics tab
+            if (e.altKey && e.key === 'a') {
+                e.preventDefault();
+                // This would trigger analytics tab - handled by React
+                window.dispatchEvent(new CustomEvent('switchTab', { detail: 'analytics' }));
+            }
+            
+            // Alt + G to switch to GitHub tab
+            if (e.altKey && e.key === 'g') {
+                e.preventDefault();
+                // This would trigger github tab - handled by React
+                window.dispatchEvent(new CustomEvent('switchTab', { detail: 'github' }));
+            }
+        });
+
+        // Theme detection and system preference handling
+        function detectTheme() {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.body.classList.add('dark-theme');
+            }
+            
+            // Listen for theme changes
+            if (window.matchMedia) {
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                    if (e.matches) {
+                        document.body.classList.add('dark-theme');
+                    } else {
+                        document.body.classList.remove('dark-theme');
+                    }
+                });
+            }
+        }
+
+        // Initialize theme detection
+        detectTheme();
+
+        // Analytics and tracking (placeholder for real implementation)
+        window.linkSnapAnalytics = {
+            track: function(event, properties) {
+                // This would send analytics data to your tracking service
+                console.log('Analytics Event:', event, properties);
+            },
+            
+            trackPageView: function(page) {
+                this.track('page_view', { page: page });
+            },
+            
+            trackLinkCreated: function(url, shortUrl) {
+                this.track('link_created', { 
+                    original_url: url, 
+                    short_url: shortUrl,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        };
+
+        // Initialize analytics
+        window.linkSnapAnalytics.trackPageView('home');
+    </script>
 </body>
 </html>
