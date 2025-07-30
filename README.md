@@ -69,35 +69,7 @@ Netlify will automatically build and deploy your application. Subsequent pushes 
 ## Project Structure
 
 
-links-snap/
-├── public/
-│   └── index.html
-├── src/
-│   ├── assets/
-│   │   ├── images/
-│   │   └── icons/
-│   ├── components/
-│   │   ├── Header.jsx
-│   │   ├── Footer.jsx
-│   │   ├── URLShortenerForm.jsx
-│   │   ├── LinkDisplay.jsx
-│   │   ├── LinksList.jsx
-│   │   ├── AnalyticsDashboard.jsx
-│   │   ├── Toast.jsx
-│   │   └── ThreeJSBackground.jsx
-│   ├── views/
-│   │   ├── HomeView.jsx
-│   │   ├── LinksView.jsx
-│   │   └── AnalyticsView.jsx
-│   ├── App.jsx
-│   ├── index.css
-│   └── main.jsx
-├── .gitignore
-├── package.json
-├── package-lock.json
-├── README.md
-├── tailwind.config.js
-└── vite.config.js
+<pre><code>``` links-snap/ ├── public/ │ └── index.html ├── src/ │ ├── assets/ │ │ ├── images/ │ │ └── icons/ │ ├── components/ │ │ ├── Header.jsx │ │ ├── Footer.jsx │ │ ├── URLShortenerForm.jsx │ │ ├── LinkDisplay.jsx │ │ ├── LinksList.jsx │ │ ├── AnalyticsDashboard.jsx │ │ ├── Toast.jsx │ │ └── ThreeJSBackground.jsx │ ├── views/ │ │ ├── HomeView.jsx │ │ ├── LinksView.jsx │ │ └── AnalyticsView.jsx │ ├── App.jsx │ ├── index.css │ └── main.jsx ├── .gitignore ├── package.json ├── package-lock.json ├── README.md ├── tailwind.config.js └── vite.config.js ```</code></pre>
 
 
 ## Contributing
